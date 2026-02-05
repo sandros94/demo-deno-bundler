@@ -29,4 +29,4 @@ jobs:
         with:
           script_id: ${{ secrets.SCRIPT_ID }}
           deploy_key: ${{ secrets.DEPLOY_KEY }}
-          file: "script.ts"
+          file: "dist/main.js"
