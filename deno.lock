@@ -1,0 +1,32 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:h3@2.0.1-rc.5": "2.0.1-rc.5",
+    "npm:valibot@1.2.0": "1.2.0"
+  },
+  "npm": {
+    "h3@2.0.1-rc.5": {
+      "integrity": "sha512-qkohAzCab0nLzXNm78tBjZDvtKMTmtygS8BJLT3VPczAQofdqlFXDPkXdLMJN4r05+xqneG8snZJ0HgkERCZTg==",
+      "dependencies": [
+        "rou3",
+        "srvx"
+      ]
+    },
+    "rou3@0.7.12": {
+      "integrity": "sha512-iFE4hLDuloSWcD7mjdCDhx2bKcIsYbtOTpfH5MHHLSKMOUyjqQXTeZVa289uuwEGEKFoE/BAPbhaU4B774nceg=="
+    },
+    "srvx@0.9.8": {
+      "integrity": "sha512-RZaxTKJEE/14HYn8COLuUOJAt0U55N9l1Xf6jj+T0GoA01EUH1Xz5JtSUOI+EHn+AEgPCVn7gk6jHJffrr06fQ==",
+      "bin": true
+    },
+    "valibot@1.2.0": {
+      "integrity": "sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:h3@2.0.1-rc.5",
+      "npm:valibot@1.2.0"
+    ]
+  }
+}

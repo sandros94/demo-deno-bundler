@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-env --allow-net --unstable-raw-imports src/main.ts",
+    "bundle": "deno run -A --unstable-raw-imports --unstable-bundle --no-lock jsr:@sandros94/deno-bundler@0.0.2 -r \"Deno.serve=Bunny.v1.serve\" -e=h3,valibot ./src/main.ts"
+  },
+  "imports": {
+    "h3": "npm:h3@2.0.1-rc.5",
+    "valibot": "npm:valibot@1.2.0"
+  }
+}

@@ -1,0 +1,32 @@
+name: Deploy when pushing on main
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    name: "Upload script"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          cache: true
+          deno-version: lts
+
+      - name: Bundle Script
+        run: deno task bundle
+
+      - name: Deploy Script to Bunny Edge Scripting
+        uses: BunnyWay/actions/deploy-script@main
+        with:
+          script_id: ${{ secrets.SCRIPT_ID }}
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          file: "script.ts"

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@sandros94/deno-bundler - Demo</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.svg">
+    <link
+      rel="stylesheet"
+      href="https://esm.sh/@picocss/pico@2/css/pico.min.css"
+    >
+    <style>
+      /* Monochrome Theme with Teal Accents */
+      :root {
+        --pico-primary: #262626;
+        --pico-primary-background: #262626;
+        --pico-primary-hover: #404040;
+        --pico-primary-underline: #262626;
+        --pico-primary-focus: rgba(38, 38, 38, 0.125);
+        --pico-primary-inverse: #fff;
+        --pico-border-radius: 0.5rem;
+
+        --accent: #0d9488;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --pico-primary: #e5e5e5;
+          --pico-primary-background: #e5e5e5;
+          --pico-primary-hover: #d4d4d4;
+          --pico-primary-underline: #e5e5e5;
+          --pico-primary-focus: rgba(229, 229, 229, 0.125);
+          --pico-primary-inverse: #171717;
+        }
+      }
+
+      body {
+        padding: 2rem 0;
+      }
+
+      /* Deno Icon using Mask for automatic color support */
+      .deno-icon {
+        display: inline-block;
+        width: 1.25em;
+        height: 1.25em;
+        background-color: var(--pico-color);
+        mask: url("/deno.svg") no-repeat center / contain;
+        -webkit-mask: url("/deno.svg") no-repeat center / contain;
+        vertical-align: -0.2em;
+      }
+
+      .hero {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: var(--pico-muted-color);
+      }
+
+      .hero-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .feature-card {
+        padding: 1.5rem;
+        border-radius: var(--pico-border-radius);
+        border: 1px solid var(--pico-muted-border-color);
+        transition: all 0.2s ease;
+      }
+
+      .feature-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .feature-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .feature-icon {
+        color: var(--accent);
+      }
+
+      .shiki {
+        padding: 1rem;
+        border-radius: var(--pico-border-radius);
+        overflow-x: auto;
+        border: 1px solid var(--pico-muted-border-color);
+        font-size: 0.9em;
+        background-color: var(--pico-card-background-color) !important;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background: var(--accent);
+        color: white;
+        border-radius: 2rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin: 0.25rem;
+      }
+
+      .demo-section {
+        margin: 3rem 0;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 1rem;
+        border-bottom: 2px solid var(--pico-muted-border-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .tab {
+        padding: 0.75rem 1rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--pico-muted-color);
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s;
+        font-weight: 600;
+      }
+
+      .tab:hover {
+        color: var(--pico-color);
+      }
+
+      .tab.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .tab-content {
+        display: none;
+        animation: fade 0.2s ease;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--pico-muted-border-color);
+        color: var(--pico-muted-color);
+        font-size: 0.875rem;
+      }
+
+      pre code {
+        display: block;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <div class="hero">
+        <h1><span class="deno-icon"></span> @sandros94/deno-bundler</h1>
+        <p>A powerful Deno bundler wrapper with external package resolution</p>
+        <div>
+          <span class="badge">Deno 2.4+</span>
+          <span class="badge">ESM Output</span>
+          <span class="badge">CLI & Programmatic</span>
+        </div>
+        <div class="hero-actions">
+          <a
+            class="primary"
+            href="https://jsr.io/@sandros94/deno-bundler"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            View on JSR
+          </a>
+          <a
+            class="secondary"
+            href="https://github.com/sandros94/demo-deno-bundler"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            GitHub repo
+          </a>
+        </div>
+      </div>
+
+      <section>
+        <h2>Key Features</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3><span class="feature-icon">📦</span> External Packages</h3>
+            <p>
+              Automatically rewrites bare specifiers to resolved Deno specifiers
+              (npm:, jsr:, https:)
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3><span class="feature-icon">🔄</span> String Replacements</h3>
+            <p>
+              Apply arbitrary string replacements to bundled output for runtime
+              adaptation
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3><span class="feature-icon">⚡</span> CLI Support</h3>
+            <p>
+              Flexible command-line interface with intuitive argument parsing
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3><span class="feature-icon">📝</span> ESM Output</h3>
+            <p>Generates optimized ES modules with optional minification</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section">
+        <h2>Quick Start</h2>
+        <pre><code class="language-bash">deno add jsr:@sandros94/deno-bundler</code></pre>
+      </section>
+
+      <section class="demo-section">
+        <h2>Usage Examples</h2>
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab active" onclick="switchTab('basic')">
+              Basic
+            </button>
+            <button class="tab" onclick="switchTab('replace')">
+              With Replacements
+            </button>
+            <button class="tab" onclick="switchTab('cli')">CLI</button>
+          </div>
+
+          <div id="basic" class="tab-content active">
+            <pre>
+<code class="language-ts">import { build } from "@sandros94/deno-bundler";
+
+const result = await build({
+  entrypoints: ["./main.ts"],
+  external: ["h3", "rendu"],
+  minify: true,
+});
+
+console.log(\`Bundled in \${result.duration}ms\`);
+console.log(\`Output files: \${result.outputFiles.join(", ")}\`);</code></pre>
+          </div>
+
+          <div id="replace" class="tab-content">
+            <pre>
+<code class="language-ts">import { build } from "@sandros94/deno-bundler";
+
+await build({
+  entrypoints: ["./main.ts"],
+  replace: {
+    "Deno.serve": "Bunny.v1.serve",
+    "Deno.env": "Bun.env",
+  },
+});</code></pre>
+            <p>
+              <small>Perfect for adapting your Deno code to other
+                runtimes!</small>
+            </p>
+          </div>
+
+          <div id="cli" class="tab-content">
+            <pre>
+<code class="language-bash"># Basic usage
+deno run -A jsr:@sandros94/deno-bundler
+
+# With external packages
+deno run -A jsr:@sandros94/deno-bundler \\
+  --entrypoints="./main.ts" \\
+  --external="h3,rendu"
+
+# With string replacements
+deno run -A jsr:@sandros94/deno-bundler \\
+  --replace="Deno.serve=Bunny.v1.serve" \\
+  --replace="Deno.env=Bun.env"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section">
+        <h2>Configuration</h2>
+        <div class="overflow-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Option</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>entrypoints</code></td>
+                <td><code>string[]</code></td>
+                <td><code>["./main.ts"]</code></td>
+                <td>Entry point files to bundle</td>
+              </tr>
+              <tr>
+                <td><code>external</code></td>
+                <td><code>string[]</code></td>
+                <td><code>[]</code></td>
+                <td>Packages to mark as external</td>
+              </tr>
+              <tr>
+                <td><code>outputDir</code></td>
+                <td><code>string</code></td>
+                <td><code>"dist"</code></td>
+                <td>Output directory for bundled files</td>
+              </tr>
+              <tr>
+                <td><code>minify</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Whether to minify the output</td>
+              </tr>
+              <tr>
+                <td><code>replace</code></td>
+                <td><code>Record&lt;string, string&gt;</code></td>
+                <td><code>{}</code></td>
+                <td>String replacements to apply</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          Built with ❤️ using <span
+            class="deno-icon"
+            style="width: 1em; height: 1em; vertical-align: -0.15em"
+          ></span> Deno
+        </p>
+        <p>
+          <a href="https://jsr.io/@sandros94/deno-bundler" class="contrast"
+          >View on JSR</a>
+        </p>
+      </footer>
+    </main>
+
+    <!-- Shiki Syntax Highlighting -->
+    <script type="module">
+      import { codeToHtml } from "https://esm.sh/shiki@3.22.0";
+
+      const darkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      );
+      const themeForScheme =
+        () => (darkScheme.matches ? "vitesse-dark" : "vitesse-light");
+
+      async function highlightCodeBlocks() {
+        const theme = themeForScheme();
+        const codeBlocks = Array.from(
+          document.querySelectorAll("pre code"),
+        );
+
+        for (const block of codeBlocks) {
+          const lang = block.className.replace("language-", "") ||
+            "typescript";
+          const code = block.textContent ?? "";
+          if (!code.trim()) continue;
+
+          const html = await codeToHtml(code, { lang, theme });
+          block.parentElement.outerHTML = html;
+        }
+      }
+
+      await highlightCodeBlocks();
+      darkScheme.addEventListener(
+        "change",
+        () => highlightCodeBlocks(),
+      );
+    </script>
+
+    <script>
+      function switchTab(tabId) {
+        document.querySelectorAll(".tab-content").forEach((c) =>
+          c.classList.remove("active")
+        );
+        document.querySelectorAll(".tab").forEach((t) =>
+          t.classList.remove("active")
+        );
+        document.getElementById(tabId).classList.add("active");
+        event.target.classList.add("active");
+      }
+    </script>
+  </body>
+</html>
