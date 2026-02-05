@@ -261,16 +261,32 @@
         <h2>Usage Examples</h2>
         <div class="tab-container">
           <div class="tabs">
-            <button class="tab active" onclick="switchTab('basic')">
+            <button class="tab active" onclick="switchTab('cli')">CLI</button>
+            <button class="tab" onclick="switchTab('basic')">
               Basic
             </button>
             <button class="tab" onclick="switchTab('replace')">
               With Replacements
             </button>
-            <button class="tab" onclick="switchTab('cli')">CLI</button>
           </div>
 
-          <div id="basic" class="tab-content active">
+          <div id="cli" class="tab-content active">
+            <pre>
+<code class="language-bash"># Basic usage
+deno run -A jsr:@sandros94/deno-bundler
+
+# With external packages
+deno run -A jsr:@sandros94/deno-bundler \\
+  --entrypoints="./main.ts" \\
+  --external="h3,rendu"
+
+# With string replacements
+deno run -A jsr:@sandros94/deno-bundler \\
+  --replace="Deno.serve=Bunny.v1.serve" \\
+  --replace="Deno.env=Bun.env"</code></pre>
+          </div>
+
+          <div id="basic" class="tab-content">
             <pre>
 <code class="language-ts">import { build } from "@sandros94/deno-bundler";
 
@@ -299,22 +315,6 @@ await build({
               <small>Perfect for adapting your Deno code to other
                 runtimes!</small>
             </p>
-          </div>
-
-          <div id="cli" class="tab-content">
-            <pre>
-<code class="language-bash"># Basic usage
-deno run -A jsr:@sandros94/deno-bundler
-
-# With external packages
-deno run -A jsr:@sandros94/deno-bundler \\
-  --entrypoints="./main.ts" \\
-  --external="h3,rendu"
-
-# With string replacements
-deno run -A jsr:@sandros94/deno-bundler \\
-  --replace="Deno.serve=Bunny.v1.serve" \\
-  --replace="Deno.env=Bun.env"</code></pre>
           </div>
         </div>
       </section>
